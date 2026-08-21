@@ -108,21 +108,26 @@ sdp_vodafone_cash_catalog
 
 ```text
 vodafone_cash_project/
+  __init__.py
   common/
+    __init__.py
     config.py                 # project constants, source path, table names, expectation dictionaries
   bronze/
+    __init__.py
     schema.py                 # explicit Bronze StructType schema
     metadata.py               # file lineage and ingestion metadata
-    bronze_pipeline.py        # bronze.raw_transactions materialized view
+    ingestion.py               # bronze.raw_transactions materialized view
   silver/
+    __init__.py
     stateless_functions.py    # row-level cleaning functions
     statefull_functions.py    # wallet-sequence reconstruction functions
-    silver_pipeline.py        # stateless and stateful Silver materialized views
+    clean_data.py              # stateless and stateful Silver materialized views
   gold/
+    __init__.py
     gold_expectations.py      # Gold quality expectation dictionaries
     dimensions_tables.py      # conformed dimension builders
     facts_tables.py           # analytical fact builders
-    gold_pipeline.py          # Gold materialized views
+    main_gold.py               # Gold materialized views
 ```
 
 ## Raw Transaction Contract
