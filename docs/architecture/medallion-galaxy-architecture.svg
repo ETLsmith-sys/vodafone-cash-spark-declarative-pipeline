@@ -1,0 +1,189 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Bayt El-Cash Databricks Medallion Pipeline and Gold Galaxy Schema</title>
+  <desc id="desc">A dark architecture diagram showing AWS S3 ingestion into Databricks Spark Declarative Pipelines, then Bronze, Silver, and Gold layers. The Gold layer contains a galaxy schema with two fact tables and shared dimensions.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#07111f"/>
+      <stop offset="45%" stop-color="#10113a"/>
+      <stop offset="100%" stop-color="#061a17"/>
+    </linearGradient>
+    <linearGradient id="bronzeGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#12294d"/>
+      <stop offset="100%" stop-color="#173b66"/>
+    </linearGradient>
+    <linearGradient id="silverGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#24194e"/>
+      <stop offset="100%" stop-color="#17395c"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#14233f"/>
+      <stop offset="55%" stop-color="#1b214b"/>
+      <stop offset="100%" stop-color="#102d24"/>
+    </linearGradient>
+    <linearGradient id="factGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3343d6"/>
+      <stop offset="100%" stop-color="#22b884"/>
+    </linearGradient>
+    <linearGradient id="dimGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3a246f"/>
+      <stop offset="100%" stop-color="#136c81"/>
+    </linearGradient>
+    <filter id="softGlow" x="-35%" y="-35%" width="170%" height="170%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <marker id="arrowBlue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#4db6ff"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#33d69f"/>
+    </marker>
+    <style>
+      .title { font: 700 42px Arial, Helvetica, sans-serif; fill: #eef7ff; letter-spacing: 0; }
+      .subtitle { font: 400 18px Arial, Helvetica, sans-serif; fill: #b9c8e8; letter-spacing: 0; }
+      .section-title { font: 700 25px Arial, Helvetica, sans-serif; fill: #ffffff; letter-spacing: 0; }
+      .section-subtitle { font: 400 15px Arial, Helvetica, sans-serif; fill: #b8c7df; letter-spacing: 0; }
+      .node-title { font: 700 18px Arial, Helvetica, sans-serif; fill: #ffffff; letter-spacing: 0; }
+      .node-text { font: 400 14px Arial, Helvetica, sans-serif; fill: #d6e4f5; letter-spacing: 0; }
+      .small { font: 400 12px Arial, Helvetica, sans-serif; fill: #aec0da; letter-spacing: 0; }
+      .label { font: 700 12px Arial, Helvetica, sans-serif; fill: #dff7ff; letter-spacing: 0; }
+      .panel { stroke: rgba(255,255,255,.2); stroke-width: 1.4; rx: 22; }
+      .box { stroke: rgba(255,255,255,.24); stroke-width: 1.2; rx: 14; }
+      .thin { stroke: rgba(185,215,255,.28); stroke-width: 1; }
+      .flow { fill: none; stroke: #4db6ff; stroke-width: 3; marker-end: url(#arrowBlue); }
+      .gold-flow { fill: none; stroke: #33d69f; stroke-width: 2.5; marker-end: url(#arrowGreen); }
+      .relation { fill: none; stroke: #9fdcff; stroke-width: 2.2; opacity: .92; }
+      .relation-green { fill: none; stroke: #57e0a3; stroke-width: 2.2; opacity: .92; }
+      .relation-dashed { fill: none; stroke: #b591ff; stroke-width: 1.8; stroke-dasharray: 7 7; opacity: .85; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <g opacity="0.18">
+    <path d="M0 120 H1600 M0 240 H1600 M0 360 H1600 M0 480 H1600 M0 600 H1600 M0 720 H1600 M0 840 H1600" stroke="#93c5fd" stroke-width="1"/>
+    <path d="M120 0 V1000 M240 0 V1000 M360 0 V1000 M480 0 V1000 M600 0 V1000 M720 0 V1000 M840 0 V1000 M960 0 V1000 M1080 0 V1000 M1200 0 V1000 M1320 0 V1000 M1440 0 V1000" stroke="#93c5fd" stroke-width="1"/>
+  </g>
+  <circle cx="1280" cy="120" r="180" fill="#6d5dfc" opacity=".15"/>
+  <circle cx="320" cy="850" r="210" fill="#10b981" opacity=".13"/>
+  <circle cx="760" cy="180" r="240" fill="#0ea5e9" opacity=".12"/>
+
+  <text x="70" y="70" class="title">Bayt El-Cash Lakehouse Architecture</text>
+  <text x="72" y="106" class="subtitle">AWS S3 + IAM role ingestion into Databricks Spark Declarative Pipelines, curated through Bronze, Silver, and Gold layers.</text>
+
+  <g filter="url(#softGlow)">
+    <rect x="70" y="145" width="330" height="88" rx="18" fill="#0b2038" stroke="#4db6ff" stroke-width="1.4"/>
+    <text x="95" y="178" class="node-title">AWS S3 Data Landing Zone</text>
+    <text x="95" y="203" class="node-text">s3://vodafone-cash-transactions/...</text>
+    <text x="95" y="222" class="small">Databricks access is secured through an IAM role</text>
+  </g>
+
+  <rect x="500" y="145" width="430" height="88" rx="18" fill="#111d36" stroke="#8b5cf6" stroke-width="1.4"/>
+  <text x="528" y="178" class="node-title">Databricks Runtime</text>
+  <text x="528" y="203" class="node-text">PySpark + Spark Declarative Pipelines</text>
+  <text x="528" y="222" class="small">Materialized views, expectations, Unity Catalog tables</text>
+
+  <path d="M400 189 C430 189 460 189 500 189" class="flow"/>
+  <text x="424" y="174" class="label">read CSV</text>
+
+  <rect x="70" y="280" width="390" height="560" class="panel" fill="url(#bronzeGrad)"/>
+  <text x="100" y="325" class="section-title">1. Bronze Layer</text>
+  <text x="100" y="351" class="section-subtitle">Raw ingestion with explicit structure and lineage</text>
+
+  <rect x="105" y="385" width="320" height="92" class="box" fill="#0b2341"/>
+  <text x="128" y="416" class="node-title">bronze.raw_transactions</text>
+  <text x="128" y="443" class="node-text">Strict schema over CSV files</text>
+  <text x="128" y="463" class="small">Decimal money fields and boolean cashout marker</text>
+
+  <rect x="105" y="505" width="320" height="130" class="box" fill="#0f2d4d"/>
+  <text x="128" y="536" class="node-title">Metadata Enrichment</text>
+  <text x="128" y="564" class="node-text">source_file</text>
+  <text x="128" y="586" class="node-text">file_date, year, month, day</text>
+  <text x="128" y="608" class="node-text">ingestion_timestamp</text>
+
+  <rect x="105" y="665" width="320" height="120" class="box" fill="#0a1f3a"/>
+  <text x="128" y="696" class="node-title">Purpose</text>
+  <text x="128" y="724" class="node-text">Preserve source truth</text>
+  <text x="128" y="746" class="node-text">Make every file traceable</text>
+  <text x="128" y="768" class="node-text">Prepare reliable downstream cleaning</text>
+
+  <rect x="540" y="280" width="420" height="560" class="panel" fill="url(#silverGrad)"/>
+  <text x="570" y="325" class="section-title">2. Silver Layer</text>
+  <text x="570" y="351" class="section-subtitle">Deterministic cleaning and stateful recovery</text>
+
+  <rect x="575" y="385" width="350" height="128" class="box" fill="#18224c"/>
+  <text x="600" y="416" class="node-title">silver.transactions_stateless</text>
+  <text x="600" y="444" class="node-text">Normalize phone numbers to Egyptian format</text>
+  <text x="600" y="466" class="node-text">Parse mixed timestamp patterns into date</text>
+  <text x="600" y="488" class="node-text">Repair negative commission and balance values</text>
+
+  <rect x="575" y="540" width="350" height="178" class="box" fill="#202353"/>
+  <text x="600" y="572" class="node-title">silver.transactions_statefull</text>
+  <text x="600" y="600" class="node-text">Rank each wallet by transaction_id</text>
+  <text x="600" y="622" class="node-text">Calculate total_before from wallet history</text>
+  <text x="600" y="644" class="node-text">Rebuild missing balances using before +/- amount</text>
+  <text x="600" y="666" class="node-text">Infer missing amount from before and after</text>
+  <text x="600" y="688" class="node-text">Recalculate commission consistently</text>
+
+  <rect x="575" y="746" width="350" height="58" class="box" fill="#102b4a"/>
+  <text x="600" y="780" class="node-title">Expectations</text>
+  <text x="720" y="780" class="node-text">Fail fast on invalid cleaned records</text>
+
+  <path d="M460 560 C490 560 510 560 540 560" class="flow"/>
+  <text x="475" y="540" class="label">clean</text>
+
+  <rect x="1030" y="130" width="510" height="770" class="panel" fill="url(#goldGrad)"/>
+  <text x="1060" y="175" class="section-title">3. Gold Layer</text>
+  <text x="1060" y="201" class="section-subtitle">Galaxy schema for analytics-ready marts</text>
+
+  <rect x="1180" y="335" width="215" height="100" class="box" fill="url(#factGrad)" filter="url(#softGlow)"/>
+  <text x="1204" y="369" class="node-title">fact_transactions</text>
+  <text x="1204" y="397" class="node-text">Transaction grain</text>
+  <text x="1204" y="417" class="small">amount, balance, commission</text>
+
+  <rect x="1160" y="575" width="255" height="105" class="box" fill="url(#factGrad)" filter="url(#softGlow)"/>
+  <text x="1184" y="609" class="node-title">fact_branch_daily_profit</text>
+  <text x="1184" y="637" class="node-text">Branch-day grain</text>
+  <text x="1184" y="657" class="small">wallet sums, cash, profit, shift check</text>
+
+  <rect x="1070" y="245" width="175" height="70" class="box" fill="url(#dimGrad)"/>
+  <text x="1092" y="276" class="node-title">dim_customer</text>
+  <text x="1092" y="299" class="small">customer_key, segment</text>
+
+  <rect x="1335" y="245" width="165" height="70" class="box" fill="url(#dimGrad)"/>
+  <text x="1360" y="276" class="node-title">dim_wallet</text>
+  <text x="1360" y="299" class="small">wallet_key, prefix</text>
+
+  <rect x="1342" y="452" width="150" height="70" class="box" fill="url(#dimGrad)"/>
+  <text x="1360" y="483" class="node-title">dim_type</text>
+  <text x="1360" y="506" class="small">receive, send, external</text>
+
+  <rect x="1065" y="735" width="165" height="70" class="box" fill="url(#dimGrad)"/>
+  <text x="1089" y="766" class="node-title">dim_branch</text>
+  <text x="1089" y="789" class="small">branch_key, name</text>
+
+  <rect x="1340" y="735" width="160" height="70" class="box" fill="url(#dimGrad)"/>
+  <text x="1368" y="766" class="node-title">dim_date</text>
+  <text x="1368" y="789" class="small">date_key, calendar</text>
+
+  <path d="M1245 315 L1245 335" class="relation"/>
+  <path d="M1390 315 L1348 335" class="relation"/>
+  <path d="M1395 452 L1372 435" class="relation"/>
+  <path d="M1375 735 L1334 680" class="relation-green"/>
+  <path d="M1148 735 L1228 680" class="relation-green"/>
+  <path d="M1415 735 L1342 435" class="relation"/>
+  <path d="M1160 735 L1160 315" class="relation-dashed"/>
+  <path d="M1418 315 C1418 570 1212 600 1235 735" class="relation-dashed"/>
+
+  <text x="1068" y="860" class="small">Galaxy schema: multiple facts share conformed dimensions.</text>
+  <text x="1068" y="880" class="small">fact_transactions joins customer, wallet, date, and transaction type.</text>
+  <text x="1068" y="900" class="small">fact_branch_daily_profit joins branch and date for management reporting.</text>
+
+  <path d="M960 560 C990 560 1005 560 1030 560" class="gold-flow"/>
+  <text x="978" y="540" class="label">model</text>
+
+  <rect x="70" y="885" width="1470" height="54" rx="18" fill="#071c2d" stroke="rgba(255,255,255,.18)" stroke-width="1.2"/>
+  <text x="96" y="919" class="node-text">Data quality philosophy: preserve raw lineage, repair deterministic issues in Silver, and publish trustworthy dimensional marts in Gold.</text>
+</svg>
