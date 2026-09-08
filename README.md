@@ -10,15 +10,17 @@ records, and publishes analytics-ready Gold tables using a Galaxy Schema.
 ## The Story
 
 Bayt El-Cash is a mobile-wallet services company operating 15 branches across
-Alexandria, Egypt. From 2015 to 2020, the company had no digital operational
-system. Branch transactions were recorded manually on paper.
+Alexandria, Egypt, with an 11-year operational history spanning 2015 to 2026.
+For much of that period the company had no digital operational system —
+branch transactions were recorded manually on paper.
 
 After years of growth, management decided to expand into a new governorate and
-digitize the company. Historical paper records were entered into a new software
-system alongside newer digital transactions. That migration introduced serious
-data quality problems: missing balances, missing amounts, malformed phone
-numbers, inconsistent date formats, negative money values, and broken
-transaction sequences.
+digitize the company. Over a decade of historical paper records were entered
+into a new software system alongside newer digital transactions. That
+migration introduced serious data quality problems across the full 11-year
+dataset: missing balances, missing amounts, malformed phone numbers,
+inconsistent date formats, negative money values, and broken transaction
+sequences.
 
 A data engineer was brought in to design a pipeline that could clean,
 reconstruct, validate, and model this data reliably enough to support branch
@@ -365,7 +367,7 @@ and only trusted analytical records are published in Gold.
 
 ## Why This Project Matters
 
-This pipeline turns years of unreliable operational records into a trusted
+This pipeline turns 11 years of unreliable operational records into a trusted
 Lakehouse model. It preserves raw lineage, reconstructs missing values through
 wallet-level sequence logic, and publishes a clean dimensional model for
 decision makers.
